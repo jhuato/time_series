@@ -1,9 +1,25 @@
-# Notes on multivariate time series
+% Notes on multivariate time series
 
 L\"utkepohl, Helmut (2005), \emph{New Introduction to Multiple Time Series Analysis}, Springer.
 
 ``In making choices between alternative courses of action, decision makers at all structural levels often need predictions of economic variables. If time series observations are available for a variable of interest and the data from the past contain information about the future development of a variable, it is plausible to use as forecast some function of the data collected in the past.''
 
-This is a promising approach for socialists.  Like theorization in general, time series analysis is about informing one's practical actions.  For me, the ultimate goal is the transformation of society.  Understanding it and anticipating its evolution is crucial.
+Ignore the ideologically ladden terms, this is a promising approach for socialists.  Like theorization in general, time series analysis is about informing one's practical actions.  For socialists, the ultimate goal is the transformation of society, the construction of a free society.  Understanding society and anticipating its evolution is crucial to transforming it purposefully.
+
+If the state of today's society (i.e. at time $t$) can be denoted by $y_t$, a vector of $K$ random variables for which there are ``realizations'' at each $t \in (- \infty, + \infty)$, then one may think of the process of social life as a whole as:
+\[ y_t = f_t(y_{t-1}, \ldots, y_{t-p}, x_t, \ldots, x_{t-q}) \]
+
+where $f_t$ is some ``transformation'' where the previous states of society, combined with the influences of the rest of nature at each $t$ denoted by $x_t$, enter as inputs.  This makes sense.  What social relations exist today are the result of actions that we are currently undertaking by which we transform the pre-existing social relations, relations that have as long a ``memory'' as denoted by $p$, in tandem with co-existing and pre-existing natural conditions with as long a ``memory'' as denoted by $q$.  For the classical framing of this, see Marx, Karl (1963), \emph{The 18th Brumaire of Louis Bonaparte}, International Publishers.
+
+It is not too terrible to make the following heroic hypotheses at the start: 
+\begin{enumerate}
+\item For a given historical horizon that depends on the specific nature of the changes under study (e.g. if we are studying the evolution of the fundamental production relations of modern bourgeois society, then one would assume this horizon to be longer than if we are studying the evolution of its superstructure in a much narrower sense), $f_t$ is fixed, i.e. $f$ without the subscript. 
+\item Also, for the given historical horizon, $f$ is linear in its ``parameters''; in other words, $y_t$ is a linear combination of the input variables, either as they are and/or transformed.
+\item At any given time, we are relatively ignorant (``uncertain'') about (1) the process denoted by $f$, (2) the measurement of the variables included, (3) the variables omitted (we may know we are omitting them or we may not even know that), and (4) whether the variables we are omitting are ``social'' variables ($y$'s) or ``natural'' variables ($x$'s).  We are usually not in a good position to disentangle the source of our relative ignorance.  However, for convenience, we may split it into two separate components, (1) a constant parameter (``intercept'' or ``drift'') in $f$ and (2) the ``disturbance,'' which converts our ``data-generating-process'' (DGP) equation above from ``deterministic'' (in which we hypothesize prescience) to ``stochastic'' (in which we admit our relative ignorance).  Note that, by choice of the constant parameter (or $y_t$ may appear in deviation form, thus eliminating the need for a constant parameter on the RHS), the disturbance will have zero expectation.  We may as well attribute to the disturbance as rich a ``probabilistic behavior'' as may be helpful to us.  Most typically, we presume it to be ``white noise'' with some scale parameter (``variance'') assigned to it.  (Since we usually don't know this variance, the variance of the DGP above, we use in practice sample data to estimate the variance, under certain assumptions, and use this estimated variance to test hypotheses.)
+\end{enumerate}
+
+In the time-series jargon, anticipating the evolution of society is called ``forecasting.''  The usual framework lets $h$ be some forecast horizon into the future:
+\[ \hat{y}_{t+h} =   \]
+
 
 
