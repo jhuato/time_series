@@ -1,25 +1,124 @@
-% Notes on multivariate time series
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
 
-L\"utkepohl, Helmut (2005), \emph{New Introduction to Multiple Time Series Analysis}, Springer.
+\title{Multivariate Time Series: Notes}
+\author{Julio Huato}
+\date{\today}
 
-``In making choices between alternative courses of action, decision makers at all structural levels often need predictions of economic variables. If time series observations are available for a variable of interest and the data from the past contain information about the future development of a variable, it is plausible to use as forecast some function of the data collected in the past.''
+\begin{document}
+\SweaveOpts{concordance=TRUE}
 
-Ignore the ideologically ladden terms, this is a promising approach for socialists.  Like theorization in general, time series analysis is about informing one's practical actions.  For socialists, the ultimate goal is the transformation of society, the construction of a free society.  Understanding society and anticipating its evolution is crucial to transforming it purposefully.
+\maketitle
+
+\section{L\"utkepohl}
+
+\subsection{Introduction}
+
+This section is based on my reading of Helmut L\"utkepohl's (2005), \emph{New Introduction to Multiple Time Series Analysis}, Springer.
+
+``In making choices between alternative courses of action, decision makers at all structural levels often need predictions of economic variables. If time series observations are available for a variable of interest and the data from the past contain information about the future development of a variable, it is plausible to use as forecast some function of the data collected in the past.'' (p. 1.)
+
+Ignore the ideologically ladden terms such as ``decision makers'' (as humans, we are all ``decision makers''), ``structural levels'' (particular structures exist in today's society, but they should not be naturalized), ``economic variables'' (the ``economy,'' as a separate sphere of social activity mediated by markets, is a historical product, not a necessary human structure) this is a promising approach for socialists.  Like theorization in general, time series analysis is about informing one's practical actions.  For socialists, the ultimate practical goal is the conscious transformation of our society into a free association of the direct producers.  Understanding today's society and anticipating its future evolution (under varying hypotheses) is crucial to transforming it purposefully.
 
 If the state of today's society (i.e. at time $t$) can be denoted by $y_t$, a vector of $K$ random variables for which there are ``realizations'' at each $t \in (- \infty, + \infty)$, then one may think of the process of social life as a whole as:
 \[ y_t = f_t(y_{t-1}, \ldots, y_{t-p}, x_t, \ldots, x_{t-q}) \]
 
-where $f_t$ is some ``transformation'' where the previous states of society, combined with the influences of the rest of nature at each $t$ denoted by $x_t$, enter as inputs.  This makes sense.  What social relations exist today are the result of actions that we are currently undertaking by which we transform the pre-existing social relations, relations that have as long a ``memory'' as denoted by $p$, in tandem with co-existing and pre-existing natural conditions with as long a ``memory'' as denoted by $q$.  For the classical framing of this, see Marx, Karl (1963), \emph{The 18th Brumaire of Louis Bonaparte}, International Publishers.
+where $f_t$ is some ``transformation'' of the previous states of society, combined with the forces of nature at each $t$ (denoted by $x_t$).  This makes sense.  What social relations exist today are the result of actions that we are currently undertaking by which we transform the pre-existing social relations, relations that have as long a ``memory'' as denoted by $p$, in tandem with co-existing and pre-existing natural conditions with as long a ``memory'' as denoted by $q$.  For the classical framing of this, see the first paragraphs in chapter 1 of Karl Marx's (1963), \emph{The 18th Brumaire of Louis Bonaparte}, International Publishers.
 
 It is not too terrible to make the following heroic hypotheses at the start: 
 \begin{enumerate}
-\item For a given historical horizon that depends on the specific nature of the changes under study (e.g. if we are studying the evolution of the fundamental production relations of modern bourgeois society, then one would assume this horizon to be longer than if we are studying the evolution of its superstructure in a much narrower sense), $f_t$ is fixed, i.e. $f$ without the subscript. 
-\item Also, for the given historical horizon, $f$ is linear in its ``parameters''; in other words, $y_t$ is a linear combination of the input variables, either as they are and/or transformed.
-\item At any given time, we are relatively ignorant (``uncertain'') about (1) the process denoted by $f$, (2) the measurement of the variables included, (3) the variables omitted (we may know we are omitting them or we may not even know that), and (4) whether the variables we are omitting are ``social'' variables ($y$'s) or ``natural'' variables ($x$'s).  We are usually not in a good position to disentangle the source of our relative ignorance.  However, for convenience, we may split it into two separate components, (1) a constant parameter (``intercept'' or ``drift'') in $f$ and (2) the ``disturbance,'' which converts our ``data-generating-process'' (DGP) equation above from ``deterministic'' (in which we hypothesize prescience) to ``stochastic'' (in which we admit our relative ignorance).  Note that, by choice of the constant parameter (or $y_t$ may appear in deviation form, thus eliminating the need for a constant parameter on the RHS), the disturbance will have zero expectation.  We may as well attribute to the disturbance as rich a ``probabilistic behavior'' as may be helpful to us.  Most typically, we presume it to be ``white noise'' with some scale parameter (``variance'') assigned to it.  (Since we usually don't know this variance, the variance of the DGP above, we use in practice sample data to estimate the variance, under certain assumptions, and use this estimated variance to test hypotheses.)
+\item For a given historical horizon that depends on the specific nature of the changes under study (e.g. if, for whatever longer-term strategic purpose, we are trying to grasp the evolution of the fundamental production relations of modern bourgeois society, then one would assume this horizon to be longer than if we are studying the evolution of its superstructure in a much narrower sense in order to refine one's tactics in the struggle), $f_t$ is fixed, i.e. $f_t = f$, without the subscript. 
+\item Also, for the given historical horizon, $f$ is linear in its ``parameters''; in other words, $y_t$ is a linear combination of the input variables, either as they are and/or transformed by some nonlinear operator (e.g. quadratic, hyperbolic, logarithmic, exponential, trigonometric, etc.).
+\item At any given time, we are relatively ignorant (``uncertain'') about:
+\begin{enumerate}
+\item the process denoted by $f$, 
+\item the measurement of the variables included, 
+\item the variables omitted (we may know we are omitting them due to absence of data, or seeking parsimony, or we may not even know at all that we are omitting them, believing that we have all the necessary variables), and 
+\item whether the variables we are omitting are ``social'' variables ($y$'s) or ``natural'' variables ($x$'s).  
+\end{enumerate}
+\item We are usually not in a good position to disentangle the various sources of our relative ignorance.  However, for convenience, we may split it into two separate components:
+\begin{enumerate}
+\item a constant parameter (``intercept'' or ``drift'')\footnote{If we are tempted to argue, here, that being constant, the ``drift'' is predictable and therefore ``known,'' that should be fine.  However, we should pause to note that the ``drift'' appears to us as a ``black box'' with unknown contents, i.e. as that part of our relative ignorance regarding the state of society $y$ (or some aspect or ``dimension'' thereof) that we can take as invariant in time.  But that is all we can say about it.} and 
+\item the ``disturbance,'' which converts our ``data-generating-process'' (DGP) equation above from ``deterministic'' (in which we hypothesize prescience) to ``stochastic'' (in which we admit our relative ignorance).  
+\end{enumerate}
+\item Note that, by choice of the constant parameter (or $y_t$ may appear in deviation form, thus eliminating the need for a constant parameter on the RHS), the disturbance will have zero expectation. (Sometimes we may want to keep it explicit.)
+\item We may as well attribute to the disturbance as rich a ``probabilistic behavior'' as may be helpful to us.  Most typically, we presume it to be ``white noise'' with some scale parameter (``variance'') assigned to it.  (Since we usually don't know this variance, the variance of the DGP above, we use in practice sample data to estimate the variance, under certain assumptions, and use this estimated variance to test hypotheses.)
 \end{enumerate}
 
-In the time-series jargon, anticipating the evolution of society is called ``forecasting.''  The usual framework lets $h$ be some forecast horizon into the future:
-\[ \hat{y}_{t+h} =   \]
+In the time-series jargon, anticipating the evolution of society is called ``forecasting'' from $T$ (today).  In the usual framework, we let $h$ be some forecast horizon in periods into the future.\footnote{Clearly, this forecast is sort of a hypothetical benchmark, since we are set out to intervene or take action and, thus, alter the course of social life we are theorizing; but I will leave this ``the subject is just an aspect of the object'' discussion to my section on self-reference.}  Consider the univariate case (e.g. when we collapse or combine the multiple dimensions of our social life we may care to categorize and/or quantify into a single ``index,'' such as the ``productive force of labor'' (the most appropriate, in my view, though a bit too long and perhaps pedantic), ``welfare'' (preferred by the economists), or ``humanity''):
+\begin{eqnarray}
+\hat{y}_{T+h} = \alpha_0 + \alpha_1  y_T + \alpha_2 y_{T-1} + \ldots. 
+\end{eqnarray}
 
+If we unpack $y_t$ into $K$ dimensions, and we wish to treat them all as ``endogenous,'' then the forecasting equation for dimension $k \in [1, \ldots, K]$ --- assuming $K=3$ (dimensions of social life), $h=1$ (one-period horizon), $p=2$ (the ``informative'' or ``useful'' past), and the usual zero-mean disturbance, appears as:
+\begin{eqnarray}
+\hat{y}_{k, T+1} = \alpha_k + \alpha_{k,11}  y_T + \alpha_{k,12} y_{T-1}.
+\end{eqnarray}
 
+In general, we have an equation system:
+\begin{eqnarray} 
+\hat{y}_{1, T+1} = \alpha_{10} + \alpha_{1,11}  y_T + \alpha_{1,12} y_{T-1}, \nonumber \\
+\ldots, \nonumber \\
+\hat{y}_{k, T+1} = \alpha_{k0} + \alpha_{k,11}  y_T + \alpha_{k,12} y_{T-1}, \\
+\ldots, \nonumber \\
+\hat{y}_{K, T+1} = \alpha_{K0} + \alpha_{K,11}  y_T + \alpha_{K,12} y_{T-1}. \nonumber 
+\end{eqnarray}
 
+Let $y_t \equiv (y_{1t}, \ldots, y_{Kt})'$, a $K \times 1$ vector; $\alpha \equiv (\alpha_{01}, \ldots, \alpha_{0K})'$, also a $K \times 1$ vector, we can write the system compactly using matrix notation:
+\begin{eqnarray} 
+\hat{y}_{T+1} = \alpha + A_1  y_{T-1+1} + A_2 y_{T-2+1},
+\end{eqnarray}
+
+where 
+\[ A_i \equiv 
+\begin{bmatrix}
+    a_{11, i} & \dots & x_{1K, i} \\
+    \ldots & \ldots & \ldots \\
+    x_{K1, i} & \dots & x_{KK, i}
+\end{bmatrix},
+\]
+
+for $i \in [1, 2]$.  
+
+Generalizing, the predictor $\hat{y}_{T+h}$ is our ``optimal forecast'' of the ``vector autoregressive model'' (VAR(p)) that we are using to characterize the evolution of the state of our society, for useful past periods $i \in [1, \ldots, p]$:
+\begin{eqnarray} 
+\hat{y}_t = \alpha + A_1  y_{t-1} + \ldots + A_p y_{t-p} + u_t,
+\end{eqnarray}
+
+where $u_t \equiv (u_{1t}, \ldots, u_{Kt})'$ is a sequence of independently and identically distributed (i.i.d.) random zero-mean $K$-vectors.
+
+How are we to proceed next?  
+
+Time series analysis is a toolkit to conduct empirical work.  Here, one is to immerse into the material, dive in it somewhat leisurely, absorbing it.  This is the process of ``investigation'' (Marx), which one is to conduct in as systematic a way as possible, though with one's ``intuition'' and ``imagination'' taking over every now and then.  In the ``investigation'' stage, one departs from the chaotic concrete, with the observations at hand seemingly disconnected or fragmented, and through a series of steps (taxonomic at first, juxtaposing things on the basis of formal commonalities, though gradually noticing the organic connections and unity among them all) one arrives at comprehensive, general, and universal categories that, when first presented, will appear as abstract (i.e. as devoid of concrete content).  This process of investigation, of appropriation of the material, has at least two starting points:
+\begin{enumerate}
+\item Extant knowledge, insofar as this is distilled, organized, reflection of the concrete as codified by other workers, each with different powers and perspectives, each subject to a unique set of personal experiences, Marxists or not.  This work will be:
+\begin{enumerate}
+\item more theoretical than historical (e.g. Karl Marx's (1867) \emph{Capital}, Ernest Mandel (), \emph{Late Capitalism}; Gerard Dumenil \& Dominique Levy's () The Crisis of Neoliberalism; etc.), 
+\item more historical than theoretical (e.g. David Harvey's () A Brief History of Neoliberalism, Thomas Piketty's () \emph{Capital in the Twenty-First Century}, Robert Gordon's () \emph{The Rise and Fall of American Growth}, etc.), and 
+\item methodological (e.g. Marx's () \emph{Gr\"undrisse}, L\"utkepohl's book, etc.), and
+\end{enumerate}
+\item compiled data and other, less structured, observations of our social life (e.g. our own personal perception other than through specialized reading or data analysys, readings of fiction literature, or nonfiction but outside of the social sciences).
+\end{enumerate}
+
+In analyzing time series data, the basic steps are:
+\begin{enumerate}
+\item Plot the data and scrutinize the plots carefully.  Over time, look for trends, cycles, breaks, dispersion scale or volatility, etc.  Cross-sectionally, look for location, variation, skewness, kurtosis, correlations, etc.
+\item Specify your models using your theoretical understanding: VAR(p) under different sets of hypotheses, SVAR(p), SVEC, etc.  Panel framework, and cross-sectional when data are available.
+\item Estimate your models and carefully examine the estimates and output statistics.
+\item Check the validity of the hypotheses embedded in your models using the sample data.  Repeat the cycle as many times as necessary and economically feasible.  Refine your models, and accept the best ones.
+\item Use your best models to organize your presentation on structural analysis, prediction, etc., but allow the entirety of your work to inform your final conclusions and presentation.  Learn.
+\end{enumerate}
+
+\subsection{Stable VAR processes}
+
+Again, our focus is on the process we denote as:
+\[
+\hat{y}_t = \alpha + A_1  y_{t-1} + \ldots + A_p y_{t-p} + u_t.
+\]
+
+We will assume the following about the white noise process $u_t$: $E(u_t) = 0$, a $K$-length zero vector, and $E(u_t u_t') = \Sigma_u$, with given $\sigma_k$ (for $k \in [1, \ldots, K]$) on its main diagonal and $E(u_t u_s') = 0$ for $s \neq t$.  In other words, the variances are all nonzero, constant, and finite, and the autocovariances are all zeros.  This covariance matrix $\Sigma_u$ is assumed to be nonsingular.
+
+[To be continued.]
+
+\end{document}
